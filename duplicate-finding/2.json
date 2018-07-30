@@ -1,0 +1,26 @@
+{
+  "_id": "<pipe-id>",
+  "type": "pipe",
+  "source": {
+    "type": "merge",
+    "datasets": ["<target dataset> dt1"],
+    "equality": [
+      ["eq", "dt1.<duplicate attribute name>", "dt1.<duplicate attribute name>"]
+    ],
+    "identity": "first",
+    "strategy": "compact",
+    "version": 2
+  },
+  "transform": {
+    "type": "dtl",
+    "rules": {
+      "default": [
+        ["copy", "*"],
+        ["filter",
+          ["gt",
+            ["count", "_T.$ids"], 1]
+        ]
+      ]
+    }
+  }
+}

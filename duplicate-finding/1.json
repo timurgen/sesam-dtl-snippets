@@ -1,0 +1,32 @@
+{
+  "_id": "<pipe-id>",
+  "type": "pipe",
+  "source": {
+    "type": "dataset",
+    "dataset": "<target-dataset>"
+  },
+  "transform": {
+    "type": "dtl",
+    "rules": {
+      "default": [
+        ["copy", "*"],
+        ["add", "duplicate-ids",
+          ["filter",
+            ["neq", "_.", "_S._id"],
+            ["hops", {
+              "datasets": ["<target-dataset> c"],
+              "where": [
+                ["eq", "_S.<duplicate attribute name>", "c.<duplicate attribute name>"]
+              ],
+              "return": "c._id"
+            }]
+          ]
+        ],
+        ["filter",
+          ["gte",
+            ["count", "_T.duplicate-ids"], 1]
+        ]
+      ]
+    }
+  }
+}
